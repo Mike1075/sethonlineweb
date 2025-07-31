@@ -1,0 +1,170 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap');
+
+@layer base {
+  :root {
+    --background: 222 15% 7%;
+    --foreground: 210 20% 95%;
+
+    --card: 222 15% 12%;
+    --card-foreground: 210 20% 95%;
+
+    --popover: 222 15% 12%;
+    --popover-foreground: 210 20% 95%;
+
+    --primary: 210 20% 15%;
+    --primary-foreground: 210 20% 95%;
+
+    --secondary: 30 35% 45%;
+    --secondary-foreground: 210 20% 95%;
+
+    --muted: 222 15% 15%;
+    --muted-foreground: 210 20% 65%;
+
+    --accent: 170 40% 42%;
+    --accent-foreground: 210 20% 95%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 20% 95%;
+
+    --border: 222 15% 20%;
+    --input: 222 15% 20%;
+    --ring: 170 40% 42%;
+
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-family: 'Noto Sans SC', system-ui, -apple-system, sans-serif;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Noto Serif SC', serif;
+  }
+}
+
+@layer components {
+  /* 蒸汽朋克装饰 */
+  .steampunk-border {
+    @apply border border-seth-secondary/30 rounded-lg;
+    background: linear-gradient(145deg, rgba(31, 38, 64, 0.8), rgba(18, 18, 27, 0.9));
+    box-shadow: 
+      inset 0 1px 0 rgba(166, 115, 64, 0.2),
+      0 1px 3px rgba(0, 0, 0, 0.3),
+      0 0 20px rgba(64, 153, 140, 0.1);
+  }
+
+  .consciousness-glow {
+    @apply relative;
+  }
+  
+  .consciousness-glow::before {
+    content: '';
+    @apply absolute inset-0 rounded-full;
+    background: radial-gradient(circle, rgba(217, 166, 89, 0.3) 0%, transparent 70%);
+    filter: blur(10px);
+    animation: consciousness-pulse 3s ease-in-out infinite;
+  }
+
+  /* 聊天气泡样式 */
+  .chat-bubble-user {
+    @apply bg-seth-primary text-white rounded-2xl rounded-br-md px-4 py-3 max-w-[80%] ml-auto;
+    background: linear-gradient(135deg, rgb(31, 38, 64), rgb(64, 153, 140));
+    box-shadow: 0 4px 12px rgba(31, 38, 64, 0.3);
+  }
+
+  .chat-bubble-ai {
+    @apply bg-seth-dark border border-seth-secondary/20 text-seth-light rounded-2xl rounded-bl-md px-4 py-3 max-w-[85%];
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  /* 粒子效果容器 */
+  .particles-container {
+    @apply absolute inset-0 overflow-hidden pointer-events-none;
+  }
+
+  .particle {
+    @apply absolute w-1 h-1 bg-seth-gold/40 rounded-full;
+    animation: particle-float 6s ease-in-out infinite;
+  }
+
+  /* 打字效果 */
+  .typing-indicator {
+    @apply flex items-center space-x-1;
+  }
+
+  .typing-dot {
+    @apply w-2 h-2 bg-seth-accent rounded-full animate-pulse;
+    animation-delay: var(--delay, 0s);
+  }
+
+  /* 自定义滚动条 */
+  .custom-scrollbar::-webkit-scrollbar {
+    @apply w-2;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-seth-dark rounded-full;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-seth-secondary/50 rounded-full hover:bg-seth-secondary/70;
+  }
+
+  /* 渐变文本 */
+  .gradient-text {
+    background: linear-gradient(135deg, rgb(217, 166, 89), rgb(166, 115, 64));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* 神秘光效 */
+  .mystical-glow {
+    box-shadow: 
+      0 0 20px rgba(64, 153, 140, 0.3),
+      0 0 40px rgba(217, 166, 89, 0.2),
+      inset 0 1px 0 rgba(241, 245, 249, 0.1);
+  }
+}
+
+/* 响应式字体大小 */
+@layer utilities {
+  .text-responsive-xs { @apply text-xs sm:text-sm; }
+  .text-responsive-sm { @apply text-sm sm:text-base; }
+  .text-responsive-base { @apply text-base sm:text-lg; }
+  .text-responsive-lg { @apply text-lg sm:text-xl; }
+  .text-responsive-xl { @apply text-xl sm:text-2xl; }
+  .text-responsive-2xl { @apply text-2xl sm:text-3xl; }
+}
+
+/* 加载动画 */
+@keyframes shimmer {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.2) 20%,
+    rgba(255, 255, 255, 0.5) 60%,
+    rgba(255, 255, 255, 0)
+  );
+  background-size: 468px 100%;
+  animation: shimmer 1.2s ease-in-out infinite;
+}

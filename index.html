@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>赛斯资料早期课第二册 - 学习平台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #0f172a; /* Deep blue-slate background */
+            background-image: url('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=2071&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .backdrop-blur-lg {
+             background-color: rgba(15, 23, 42, 0.8);
+        }
+        h1, h2, h3, h4, h5, h6, .font-serif {
+            font-family: 'Noto Serif SC', serif;
+        }
+        .content-prose {
+            max-width: none;
+            color: #cbd5e1; /* Lighter text for dark bg */
+        }
+        .content-prose p {
+            margin-bottom: 1.25rem;
+            line-height: 1.9;
+        }
+        .content-prose h2 {
+            font-size: 1.875rem;
+            color: #f1f5f9;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 0.5rem;
+        }
+        .content-prose h3 {
+            font-size: 1.5rem;
+            color: #e2e8f0;
+            margin-top: 2rem;
+        }
+        .content-prose ul {
+            list-style-position: inside;
+            padding-left: 0;
+        }
+        .content-prose li {
+            margin-bottom: 0.75rem;
+        }
+        .custom-select {
+            background-color: #1e293b;
+            color: #cbd5e1;
+            border: 1px solid #334155;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2364748b' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+        }
+
+        /* Chat Window Styles */
+        .chat-bubble {
+            max-width: 85%;
+            padding: 10px 15px;
+            border-radius: 15px;
+            margin-bottom: 10px;
+            word-wrap: break-word;
+        }
+        .user-bubble {
+            background-color: #4338ca; /* Darker Indigo */
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+        .ai-bubble {
+            background-color: #1e293b; /* Slate */
+            color: #e2e8f0;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+        .ai-bubble p, .ai-bubble ul, .ai-bubble ol { margin-bottom: 0.5rem; }
+        .ai-bubble code { background-color: #334155; padding: 2px 4px; border-radius: 4px; font-family: monospace; }
+        .ai-bubble pre { background-color: #0f172a; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+        .ai-bubble ul, .ai-bubble ol { padding-left: 1.5rem; }
+        .ai-bubble li { margin-bottom: 0.25rem; }
+
+        /* Scrollbar styles */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+    </style>
+</head>
+<body class="antialiased text-slate-300">
+
+    <!-- Header -->
+    <header class="bg-slate-900/50 backdrop-blur-sm border-b border-slate-700/50 sticky top-0 z-40">
+        <div class="container mx-auto px-6 py-5">
+            <h1 class="text-3xl lg:text-4xl font-bold text-white font-serif">赛斯资料 · 早期课第二册</h1>
+            <p class="text-lg text-slate-400 mt-1">在线学习与探索平台</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-8">
+        <div class="flex flex-col lg:flex-row -mx-4">
+
+            <!-- Left Column: Sessions Navigation -->
+            <aside class="w-full lg:w-1/4 px-4 mb-8 lg:mb-0">
+                <div class="bg-slate-900/50 backdrop-blur-sm p-4 rounded-xl shadow-lg border border-slate-700/50 sticky top-28">
+                    <h2 class="text-xl font-semibold mb-4 border-b border-slate-700 pb-2 text-white font-serif">课程目录</h2>
+                    <select id="session-select" class="w-full p-3 rounded-md custom-select focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-300">
+                        <!-- Options will be dynamically inserted here -->
+                    </select>
+                </div>
+            </aside>
+
+            <!-- Right Column: Content Display -->
+            <section class="w-full lg:w-3/4 px-4">
+                <div id="content-display" class="bg-slate-900/50 backdrop-blur-sm p-6 sm:p-10 rounded-xl shadow-lg border border-slate-700/50 min-h-[80vh]">
+                     <div id="content-area" class="prose content-prose">
+                        <!-- Content will be dynamically inserted here -->
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- AI Chat Assistant -->
+    <div id="chat-widget-container" class="fixed bottom-5 right-5 z-50">
+        <button id="chat-bubble-button" class="bg-indigo-600 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg hover:bg-indigo-500 transition-transform hover:scale-110">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor"><path d="M18 10c0 3.866-3.582 7-8 7a8.947 8.947 0 01-1.83-.213l-3.363 1.581a.5.5 0 01-.63-.63l1.58-3.363A8.947 8.947 0 012 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9a1 1 0 100-2 1 1 0 000 2zm4 0a1 1 0 100-2 1 1 0 000 2z"/></svg>
+        </button>
+        <div id="chat-window" class="fixed bottom-24 right-5 w-[90vw] max-w-lg h-[70vh] bg-slate-800/90 backdrop-blur-xl border border-slate-700 rounded-lg shadow-2xl flex-col hidden data-[state=open]:flex" data-state="closed">
+            <div class="flex justify-between items-center p-4 bg-slate-900/80 text-white rounded-t-lg">
+                <h3 class="font-semibold text-lg font-serif">AI 学习助手 (赛斯)</h3>
+                <button id="close-chat-button" class="text-slate-400 hover:text-white"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
+            </div>
+            <div id="chat-history" class="flex-1 p-4 overflow-y-auto flex flex-col space-y-2">
+                <div class="chat-bubble ai-bubble"><p>你好，我是你的学习助手。你可以把我当成赛斯。在探索意识的旅程中，你遇到了什么问题？请随时向我提问。</p></div>
+            </div>
+            <div class="p-4 border-t border-slate-700 flex">
+                <input type="text" id="chat-input" class="flex-1 bg-slate-700 border border-slate-600 text-white rounded-l-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="在此输入你的问题...">
+                <button id="chat-send-button" class="bg-indigo-600 text-white px-4 rounded-r-md hover:bg-indigo-500 disabled:bg-indigo-800 disabled:cursor-not-allowed">发送</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- DATA INITIALIZATION ---
+            const fullText = `
+
+### 本書概覽 (Book Overview)
+
+《早期課程：賽斯資料第2冊》是賽斯資料中最原始、最根本的文獻之一。此書記錄了賽斯思想體系的早期形成階段，內容涵蓋了後來在《賽斯私訊》和《個人實相的本質》等著名作品中詳細闡述的核心概念。
+
+與後期經過主題組織的書籍不同，《早期課程》以原始的課程記錄形式呈現，保留了賽斯、珍（賽斯稱之為「魯柏」）和她的丈夫羅勃（賽斯稱之為「約瑟」）之間互動的真實氛圍。讀者可以看到賽斯如何逐步引導他們理解一個全新的實相觀，並經常針對他們日常生活中的事件、夢境、健康問題以及來訪朋友的個人狀況提供即時的解析和指導。
+
+**本書核心主題與概念包括：**
+
+1. **實相的本質 (The Nature of Reality):** 賽斯顛覆了我們對物質世界的傳統認知，強調「你創造你自己的實相」。他解釋說，物質世界是一種「偽裝」（camouflage），是意識能量的具體顯現。
+2. **意識與創造 (Consciousness and Creation):** 本書的核心論點是「意識先於物質」。所有物質，從原子到星系，都是由意識（或稱「內在活力」）所創造和維持的。物質本身沒有連續性，而是由意識不斷地、瞬間地重新創造出來。
+3. **內在感官 (Inner Senses):** 賽斯介紹了超越五官的「內在感官」，這些是我們感知更廣闊實相的工具。本書中特別提到了「內在感官第八感：脫離糾纏」（Disentanglement），即從偽裝實相中脫離的能力。
+4. **心理時間與廣闊的現在 (Psychological Time & The Spacious Present):** 賽斯挑戰了線性時間（過去、現在、未來）的概念，提出所有時間都同時存在於一個「廣闊的現在」中。「心理時間」是一種練習，透過它可以體驗到這種非線性的、充滿潛能的實相。
+5. **思想與信念的力量 (The Power of Thoughts and Beliefs):** 書中反覆強調，「期望」（expectation）是觸發心靈能量轉化為物質實相的關鍵。我們的信念和情感狀態直接構建了我們的個人環境和經歷。
+6. **存有與人格 (The Entity and Personality):** 賽斯解釋了「存有」（entity，即完整的自我或超靈）與其在不同人生中所展現的「人格片段」（personality fragments）之間的關係。他揭示了珍、羅勃以及他們的朋友們在歷史上的多次轉世關聯。
+7. **主要建構與次要建構 (Primary and Secondary Constructions):** 賽斯提出了意識如何創造實相的機制。主要建構是意識為自己創造的物質形式（如一個人的身體），而次要建構是意識對其他意識的感知所創造的形式（如你看見的其他人或物體）。
+
+總體而言，第二冊不僅是形上學的理論闡述，更是一本實踐手冊，充滿了類比、練習建議和對個人經歷的深刻洞察，為讀者理解「我們如何以及為何創造我們的世界」提供了基礎藍圖。
+
+---
+
+### 每節課程核心內容摘要 (Session by Session Summary)
+
+**第43節課 (Session 43 - 1964/4/13)**
+
+* **第八內在感官：脫離糾纏 (Disentanglement):** 賽斯正式將第八內在感官命名為「脫離糾纏」，這是心靈從偽裝實相中解脫出來的能力，千里眼（clairvoyance）是其較簡單的一種形式。
+* **宇宙的擴張：** 賽斯解釋，宇宙的擴張並非物理空間的膨脹，而是像一個「意念」或「夢境」的擴展——一種質的、價值上的擴展，不佔據空間。他用一幅畫作比喻，畫面雖大小不變，但內容和深度卻能無限增加。
+* **「手變胖」的感覺：** 解釋珍感受到的「手變胖」是一種「延伸」（extension）的跡象，是身體組織能量膠囊向外伸展的脈動。
+
+**第44節課 (Session 44 - 1964/4/15)**
+
+* **內在宇宙的法則：** 賽斯開始介紹「內在宇宙」的基本法則，這些法則是所有偽裝宇宙（包括我們的物質世界）的基礎。
+  * **第一法則：價值完成 (Value Fulfillment):** 所有意識都有尋求並實現其所有潛能的內在驅動力。在物質層面，這表現為「成長」。
+  * **第二法則：能量轉換 (Energy Transformation):** 能量不斷地從一種形式轉變為另一種形式。
+  * **第三法則：自發性 (Spontaneity):** 所有意識都存在於「廣闊的現在」中，是自發且同時發生的。
+  * **第四法則：持久性 (Durability):** 在自發性中，存在著持久性。
+  * **第五法則：創造 (Creation):** 這是最基本的法則之一。
+* **死亡的本質：** 死亡並非終結，而是個人感知能力的盲點，是能量轉換到另一種感官無法察覺的層面。
+
+**第45節課 (Session 45 - 1964/4/20)**
+
+* **價值氣候 (Value Climate):** 賽斯將「心理實相的價值氣候」比喻為一片海洋，所有意識都存於其中。內在感官能直接感知這個氣候，而外在感官只能看到其表面的偽裝模式（如陽光在波浪上的倒影）。
+* **向內旅行：** 要想真正研究實相，必須「向內旅行」，擺脫外在感官的扭曲，深入潛意識，最終觸及純粹的、未扭曲的內在知識。
+* **科學的局限：** 科學家們就像在一個個小立方體（偽裝宇宙）中打轉的白老鼠，用偽裝的儀器測量偽裝的實相，永遠無法觸及根本。
+
+**第46節課 (Session 46 - 1964/4/22)**
+
+* **對訪客比爾的解讀：** 賽斯為訪客比爾·麥克唐納（Bill Macdonnel）進行了前世解讀，揭示了他今生的善良是為了彌補前世的殘酷，以及他與珍和羅勃在一世中曾為父子關係。
+* **藝術的價值：** 藝術（繪畫、詩歌）是一種償還「心理債務」和實現價值完成的重要方式。藝術品本身具有獨立的生命力。
+* **「失落的小鎮」：** 解釋比爾童年時看到的「失落的小鎮」是他對前世記憶的潛意識投射。
+
+**第47節課 (Session 47 - 1964/4/24)**
+
+* **對訪客吉姆的解讀：** 賽斯為另一位訪客吉姆·貝克特（Jim Beckett，賽斯稱其存有名為Roarck）進行解讀，指出他是一個在多次前世中傾向於美學和靈性犧牲的人格。
+* **真理與扭曲：** 賽斯強調，他傳遞的資料為了在物質層面存在，必須經過扭曲。他告誡珍和羅勃不要陷入教條主義，認為他們掌握了絕對真理。
+* **羅勃的視覺圖像：** 賽斯解釋羅勃前一晚看到的「眼中含淚的笑臉」圖像是吉姆存有的複合形象——既有對美學追求的悲憫，也有對其局限性的幽默嘲笑。
+
+**第48節課 (Session 48 - 1964/4/27)**
+
+* **旅行 (Journeying):** 賽斯祝賀羅勃在「心理時間」中成功進行了一次「旅行」（即出體體驗）。
+* **旅行的方法：** 討論了兩種旅行方式：一是人格本質穿越偽裝時空，但肉體留在原地；二是能量擴散，在新的地點形成一個部分可見的次要身體。
+* **死亡與心理時間：** 死亡的初始體驗類似於心理時間，是進入「廣闊的現在」的過渡期。熟悉心理時間的練習可以減輕對死亡的恐懼。
+
+**第49節課 (Session 49 - 1964/4/29)**
+
+* **羅勃的千里眼體驗：** 賽斯確認了羅勃看到的「虐狗女孩」是一次發生在1935年的真實事件的千里眼洞察，並指出了女孩的身份。
+* **實驗與團體：** 賽斯預言將會有一群人聚集在他們周圍，共同進行靈性探索，並解釋了對新訪客吉姆·坦南特（Jim Tennant，存有名Mareth）的前世關聯。
+* **催眠的角色：** 催眠將成為科學研究潛意識的工具，但它僅僅是打破外在人格束縛的一種方法，最終目標是讓內在自我自由運作。
+
+**第50節課 (Session 50 - 1964/5/4)**
+
+* **創造與價值完成：** 創造不僅是能量的重組，更是新能量場的建立。它通常通過「價值完成」發生，先於時空存在。
+* **細胞意識：** 所有原子、分子和細胞都擁有獨立的意識，它們合作形成了更高層次的意識集合體（如器官），最終構成整個人體的意識。
+* **擴散與重組：** 賽斯引入了「擴散」（diffusion，第九內在感官）的概念，解釋了能量人格如何將自己擴散成許多部分進入物質層面，然後再通過「脫離糾纏」重新組合。
+* **內在宇宙的其他法則：** 補充了幾條法則，包括：意識、無限的能動性、無限的改變與嬗變能力。
+
+**第51節課 (Session 51 - 1964/5/6)**
+
+* **心智遺傳密碼 (Mental Genetic Code):** 與身體的染色體模式並行，存在一個「心智遺傳密碼系統」。存有的意圖通過這個系統傳遞給原子和分子的普遍意識，再由染色體轉譯為身體細胞的物理指令。
+* **巴別塔的比喻：** 賽斯將人類目前的太空旅行比作建造巴別塔，試圖用物質手段觸及非物質的實相，是徒勞的。真正的旅行必須向內。
+* **合作法則：** 賽斯將「合作」（Cooperation）加入內在宇宙的法則列表。
+
+**第52節課 (Session 52 - 1964/5/11)**
+
+* **珍的頸部疼痛：** 賽斯對珍突發的嚴重頸部僵硬進行了心理分析，指出這是她潛意識中對母親的怨恨和恐懼的象徵性模仿，源於她對母親希望她從未出生的恐懼。這是一種「成為被憎恨對象以避免其憎恨」的心理防衛機制。
+
+**第53節課 (Session 53 - 1964/5/13)**
+
+* **內在感官的益處：** 賽斯強調，讓來自內在感官的感知浮現到意識層面是非常有益的。他鼓勵羅勃和珍記錄他們的心理時間實驗，並指出兩人的感知可以互補，共同拼湊出更完整的實相。
+
+**第54節課 (Session 54 - 1964/5/18)**
+
+* **我是誰？：** 賽斯解釋了他與「魯柏」（珍）的關係。魯柏是幾百年前的那個「賽斯」人格的一個「可能性」的實現和延伸。賽斯本人則是那個古老「賽斯」的另一個發展分支。存有就像一棵樹，不斷分化出新的人格。
+* **時空如森林：** 賽斯用森林做比喻，整個森林代表「廣闊的現在」，而我們沿著一條小徑行走，將前方的樹稱為「未來」，後方的樹稱為「過去」。但事實上，所有樹木都同時存在。
+
+**第55節課 (Session 55 - 1964/5/20)**
+
+* **外在感官是抑制器：** 賽斯提出一個革命性的觀點：外在感官不僅是感知工具，更是「抑制器」（inhibitors）。它們將我們的意識聚焦在一個狹窄的範圍內，限制了我們對更廣闊實相的體驗。
+* **自我的洞穴：** 人類習慣於待在由外在感官界定的「自我洞穴」中，就像早期人類害怕走出實體洞穴一樣。擴展意識、超越自我界限，是人類新的前沿。
+* **穿越時空旅行的機制：** 首次詳細說明，真正的太空旅行是通過「擴展自我」來實現的。意識可以在沒有肉體的情況下，利用原子和分子作為墊腳石，在目的地重新組合身體。
+
+**第56節課 (Session 56 - 1964/5/25)**
+
+* **預言的解析：** 賽斯解釋了之前關於5月23日「危機」的預言。它同時指向兩件事：一是鄰居卡拉翰小姐的心理危機，二是朋友比爾的肺部塌陷。這表明預言可以多層次地應驗，並非單一事件。
+* **天氣與情緒：** 深入探討天氣與人類情緒能量的關係。天氣系統是未受個體意識強力約束的鬆散能量結構，它們會吸收和釋放人類的集體情緒能量，形成風暴等現象。戰爭則是控制不當的情緒能量的另一種表現。
+
+**第57節課 (Session 57 - 1964/5/27)**
+
+* **自我與非我：** 探討了自我（self）與非我（notself）之間並無清晰界限。皮膚既是邊界也是連接。思想、意圖等最私密的「自我」部分，會不斷地向外輻射，影響並構成「非我」的環境。
+* **次要人格：** 在主要人格之外，還存在著許多鬆散的「次要人格」，它們主要在夢中世界尋求價值完成。這些次要人格也影響著主要人格的發展。
+
+**第58節課 (Session 58 - 1964/6/1)**
+
+* **內外在自我的溝通：** 探討內在自我與外在自我（ego）的關係。健康的溝通能讓外在自我獲得更深層的知識。如果溝通受阻，則會產生問題。
+* **偉大人格的誕生：** 當一個外在自我與內在自我溝通極佳時，它可能選擇成為一個「偉大的開創者」（如佛陀、基督），徹底改變物質世界的面貌。
+* **自我成為存有：** 另一個可能性是，一個高度發展的自我選擇不再轉世，而是自身演變為一個新的「存有」，並開始從自己未完成的慾望和能力中創造出新的外在自我。
+* **三人的共同存有：** 賽斯揭示，他、魯柏（珍）和約瑟（羅勃）都是同一個強大存有的「分支」。
+
+**第59節課 (Session 59 - 1964/6/3)**
+
+* **品質深度 (Quality-depth):** 引入一個新概念「品質深度」，這是心靈活動（如思想、宇宙擴展）發生的「維度」或「視角」，它取代了我們習慣的時空概念。心理時間是通往這個維度的入口。
+* **健康與疾病：** 賽斯簡要討論了身心健康問題，指出魯柏用牙齦問題來轉移對更深層次創作焦慮的攻擊性。並解釋了羅勃對馬血清的嚴重過敏反應源於前世創傷。
+
+**第60節課 (Session 60 - 1964/6/8)**
+
+* **物質的非連續性：** 本節課是關於物質本質的里程碑式論述。賽斯強調，物質本身並非連續存在的。你眼前的椅子，這一刻和下一刻在物理上並不是「同一張」椅子。
+* **不斷的再創造：** 物質是由意識能量不斷地、瞬間地投射到一個「模式」（pattern）中而形成的。我們感知到的「老化」或「腐朽」，並非物質本身的變化，而是能量投射到模式中的強度減弱或模式本身變得模糊。
+
+**第61節課 (Session 61 - 1964/6/10)**
+
+* **正性與負性間隔：** 物質的存在是由一系列「能量脈動」構成的。在每一次脈動之間，存在一個物質「不存在」的間隔，賽斯稱之為「負性間隔」（negative interval）。
+* **反物質：** 這個「負性間隔」或「負性物質」就是你們所說的「反物質」（antimatter），它與我們的宇宙同時存在，但處於不同的「頻率」或「振動」中。
+
+**第62節課 (Session 62 - 1964/6/15)**
+
+* **意識的合作：** 再次強調，物質宇宙的維持依賴於所有意識（包括無機物）的「有意識的合作」。身份（identity）並非依賴於物質的持久性，而是依賴於意識的連續性。
+* **宇宙的限制：** 我們的物質宇宙之所以對身份的擴展設有限制，是因為它是一個需要有效操控物質的場域。更高層次的意識集合體（如存有）無法完整地在這個場域中運作。
+
+**第63節課 (Session 63 - 1964/6/17)**
+
+* **個人預言：** 賽斯對羅勃的朋友約翰·布拉德利（John Bradley，存有名Philip）的工作狀況和一位前同事的未來進行了詳細預測，並給出了幾個未來日期作為注意點。
+* **物質間隔的再討論：** 再次用通俗的方式解釋了「物質脈動」和「非存在間隔」的概念，強調我們的感官速度太慢，無法察覺這種不連續性。
+
+**第64節課 (Session 64 - 1964/6/24)**
+
+* **萬物皆有意識建構：** 探討了不同物種如何建構同一個「物體」。例如，人、貓和蟲子看到的「蟲子」是三個完全不同的物理建構，它們只是在偽裝空間中大致吻合。
+* **心電感應的粘合作用：** 是心電感應的持續溝通，使得不同意識的建構能夠協調一致，形成我們所認為的「客觀世界」。
+
+**第65節課 (Session 65 - 1964/6/28)**
+
+* **關於買房的忠告：** 賽斯對珍和羅勃考慮購買的一棟鄉間房屋給出了非常具體的建議，包括價格、地點的心理益處、甚至房屋的「靈性氛圍」。他警告他們避開某個有問題的人。
+
+**第66節課 (Session 66 - 1964/6/29)**
+
+* **多重宇宙的建構：** 圍繞一個簡單的玻璃杯，賽斯解釋說，如果房間裡有三個人，那麼就存在三個不同的玻璃杯，存在於三個不同的個人時空連續體中。它們只是在一個極小的「交疊點」（overlap point）上重合。
+* **賽斯的示現：** 賽斯在朋友比爾的感知中，於浴室門口短暫地「物質化」了一個形象。賽斯解釋這是他自己的一個建構，為了被感知，也必須由原子和分子組成。
+* **面容的疊加：** 賽斯進一步讓珍的臉上疊加了他的男性面容特徵，這是一個能量疊加的示範。
+
+**第67節課 (Session 67 - 1964/7/1)**
+
+* **物質是行動：** 賽斯提出「物質是行動」（Matter is action）的觀點。我們所見的物體，本質上是處於靜態或緩慢運動中的「行動」。我們任意地從連續的行動中識別出一個片段，並稱之為「物體」。
+* **畫廊工作的心理分析：** 賽斯深入分析了珍在畫廊工作中所遇到的困境，指出其根源在於她對權威的抗拒，以及對秘書工作的內在排斥。
+
+**第68節課 (Session 68 - 1964/7/6)**
+
+* 本節課的摘要在第66節課中已包含，是賽斯示現和面容疊加的詳細記錄，包括比爾的素描和三人的觀察。
+
+**第69節課 (Session 69 - 1964/7/8)**
+
+* **示現的機制：** 賽斯詳細解釋了第68節課中示現的原理。示現是由馬克（比爾）建構的，因為內在數據只傳遞給了他。如果數據傳遞給所有人，每個人都會各自建構出一個相似的形象。
+* **頭骨的象徵意義：** 比爾畫中巨大的頭骨，是他將「卓越智慧」這個概念轉譯成的物理形式。
+* **約克海灘的碎片：** 賽斯解釋，之前在約克海灘看到的「碎片」是恐懼導致的缺陷建構。
+
+**第70節課 (Session 70 - 1964/7/13)**
+
+* **對約翰的忠告：** 賽斯為訪客約翰·布拉德利提供了關於其職業困境的詳細建議，強調他必須堅持自己的原創性和獨立性，不要在原則上妥協。
+* **與妻子的關係：** 賽斯指出約翰未向妻子完全展現其內在自我，導致了溝通障礙和誤解。
+
+**第71節課 (Session 71 - 1964/7/15)**
+
+* **主要建構與次要建構：** 再次深入此主題。主要建構是意識為自身創造的物質複製品。次要建構是意識對其他意識的感知所創造的。
+* **出生是扭曲的鏡子：** 父母將自己的部分物質給予嬰兒，但嬰兒的意識會立刻用新的物質取代它們。出生是一種「扭曲的鏡像建構」，試圖在物質層面複製自我。
+* **種子與成長：** 賽斯強調，草並非由種子中的「物質」長成的。種子只是一個觸發點或「立足點」，意識通過它將能量投射成草的形式。物質本身沒有連續性，只有意識的價值完成才是連續的。
+
+**第72節課 (Session 72 - 1964/7/20)**
+
+* **教育的第二階段：** 賽斯宣布他們已完成「幼兒園」階段，將進入更深的學習。
+* **形式與任意指定：** 物體的形式並非物質的固有屬性，而是我們賦予任意分子組合的「任意指定」。我們只構建那些我們認為是「物體」的模式。
+* **期待與建構：** 強調「期待」是建構的基礎。我們通過心靈溝通，特別是從父母那裡，學會了對實相的期待，並據此創造我們的環境，形成一個循環。
+
+**第73節課 (Session 73 - 1964/7/22)**
+
+* **神話與硬事實：** 賽斯探討了「神」的概念。他指出，宗教神話（如基督受難）雖然在歷史上並非「硬事實」，但它們代表了人類深層的心理實相，是人類理解自身內在事實的嘗試，因此比硬事實更接近真理。
+* **上帝是能量完形：** 「上帝」並非一個超然的個體，而是一個不斷擴張、瞬間存在的「心靈完形」（psychic gestalt），是所有宇宙、所有意識的來源和內核。
+
+**第74節課 (Session 74 - 1964/7/27)**
+
+* **對珍的心理分析：** 再次深入分析珍的權威恐懼，指出其源於童年時期母親帶來的威脅感，並解釋了她近期的情緒波動與畫廊新主管的關係。
+
+**第75節課 (Session 75 - 1964/7/29)**
+
+* **心理結構：** 引入「心理結構」（psychological structures）的概念。這些是在非物質的「心理視角」中存在的、具有形狀和固體性的結構，是物質世界所有形式的藍圖。
+* **仇恨與恐懼的根源：** 仇恨與恐懼並非基本的心理結構，它們是對「意識生存」這個基本結構的扭曲詮釋和建構所導致的。
+
+**第76節課 (Session 76 - 1964/8/3)**
+
+* **期待的力量：** 這是關於「期待」的專題課程。賽斯強調，期待是將內在數據轉化為物理現實的「觸發器」。慾望本身不足以成事，但「期待」可以。
+* **金錢與能力的信念：** 賽斯深入分析了羅勃對「藝術家必須貧窮」的無意識信念，指出這源於他對父親的愧疚感和對母親的複雜情感，這種信念限制了他的財富和成功。
+* **關於房子的決定：** 賽斯解釋，他們最終未能買下房子，是因為他們共同的「期待」在最後一刻發生了改變，他們潛意識地「建構」了貸款失敗的結果。
+
+**第77節課 (Session 77 - 1964/8/5)**
+
+* **信念的開放性：** 一個開放的心態是最大的優勢。信念就像一扇雙向門，一個信念不一定會否定另一個，除非你的接受度不夠寬廣。
+* **感官沉浸：** 賽斯建議，透過「感官沉浸」（sensuous immersion）於大自然，可以暫時忘卻「身份的道具」，刷新心靈能力。這是在「心理時間」練習基礎上的第二步。
+
+**第78節課 (Session 78 - 1964/8/10)**
+
+* **沒有封閉系統：** 賽斯闡述，宇宙中不存在任何「封閉系統」。我們之所以認為系統是封閉的，是因為我們的外在感官只能感知無限開放系統中的一個有限片段。熵理論是基於這種錯誤觀念的產物。
+* **強烈的沉浸：** 強烈地沉浸在任何活動中（如創作），會導致暫時的「自我身份喪失」，這正是最有益的內在感官實驗發生的狀態。
+
+**第79節課 (Session 79 - 1964/8/12)**
+
+* **最小心理單位：** 賽斯描述了構成所有心靈完形的最小單位——「最小心理單位」，它由個體化的心靈能量組成，是心理能量進入物質場域的第一個踏腳石，相當於物理層面的分子。
+* **意念的能量潛能：** 意念本身就包含能量，並且會吸引和激發個體的能量，將其轉化為物理現實。
+
+**第80節課 (Session 80 - 1964/8/24)**
+
+* **對羅勃的預言驗證：** 賽斯解釋了羅勃在度假期間的經歷與他之前預測的吻合之處，指出「 символическое」的預言如何轉化為具體的現實事件。
+* **對珍的感冒分析：** 珍的感冒源於對去年看到「碎片」的那個酒吧的象徵性排斥，她潛意識中覺得那裡的氛圍改變了，讓她感到「被冷落」。
+
+**第81節課 (Session 81 - 1964/8/26)**
+
+* **心靈操控物質：** 賽斯評論了珍和羅勃最近在心靈操控物質方面的兩次成功案例：一是珍通過強烈的期待讓車子被修好，二是羅勃通過期待讓汽車回程時耗油量減少。
+* **神話與硬事實的再探討：** 再次強調，神話往往比所謂的「硬事實」更接近實相，因為硬事實是外在感官的扭曲產物。
+
+**第82節課 (Session 82 - 1964/8/27)**
+
+* **書的編纂：** 賽斯在此次非正式課程中，建議珍和羅勃開始編纂第一本賽斯書，並提出了書的核心內容、結構甚至導言的作者人選。
+
+**第83節課 (Session 83 - 1964/8/31)**
+
+* **力比多 (Libido) 的合作本質：** 賽斯重新定義了佛洛伊德和榮格的力比多概念，指出力比多源於存有和內在自我的能量，其本質是「合作性」的，是所有存有共同建構物理世界的基礎。
+* **比爾的旅行驗證：** 賽斯確認了朋友比爾在旅行中所見的人和物，解釋了為何有些細節吻合而有些有出入，這取決於比爾的感知焦點。
+
+**第84節課 (Session 84 - 1964/9/2)**
+
+* **情感聯繫與千里眼：** 在千里眼感知中，「情感聯繫」是決定感知內容的關鍵。人們會感知到那些與自己有情感共鳴的事件或情境，而非邏輯上相關的。
+* **夢的解讀：** 賽斯解讀了比爾的一個夢，指出夢中的房間象徵他母親的子宮，代表他渴望從家庭束縛中「象徵性地逃脫」。
+
+**第85節課 (Session 85 - 1964/9/7)**
+
+* **法蘭克·瓦茨資料的來源：** 賽斯最終解釋了早期課程中「法蘭克·瓦茨」資料的來龍去脈。法蘭克·瓦茨是一個真實存在的人，由於當時珍的能力頻率較低，無法直接接觸賽斯，所以法蘭克·瓦茨的意識充當了一個「無意識的中繼站」。資料的混亂源於珍的經驗不足和多重轉譯。
+* **賽斯資料的開始：** 賽斯明確指出，「賽斯資料從賽斯資料開始」，即從他正式以「賽斯」之名傳導時算起。
+* **對畫廊事件的最終評論：** 賽斯對珍離開畫廊的決定進行了最後的心理分析，並鼓勵他們相信自己的選擇。`;
+
+            let bookOverview = '';
+            const sessions = [];
+
+            function parseMarkdown() {
+                const parts = fullText.split('### 每節課程核心內容摘要');
+                bookOverview = parts[0] ? marked.parse(parts[0].replace('### 本書概覽 (Book Overview)', '<h2>本書概覽</h2>')) : '';
+                
+                if (parts[1]) {
+                    const sessionRegex = /\*\*第(\d+)節課.*?\(Session \d+ - .*?\)\*\*([\s\S]*?)(?=\*\*第\d+節課|\s*$)/g;
+                    let match;
+                    while ((match = sessionRegex.exec(parts[1])) !== null) {
+                        const content = match[2].trim();
+                        sessions.push({
+                            id: parseInt(match[1]),
+                            title: `第 ${match[1]} 節課`,
+                            summary: marked.parse(content)
+                        });
+                    }
+                }
+            }
+
+            // --- UI RENDERING ---
+            const sessionSelect = document.getElementById('session-select');
+            const contentArea = document.getElementById('content-area');
+
+            function initializePage() {
+                parseMarkdown();
+
+                // Populate dropdown
+                const defaultOption = document.createElement('option');
+                defaultOption.value = 'overview';
+                defaultOption.textContent = '書籍總概覽';
+                sessionSelect.appendChild(defaultOption);
+
+                sessions.forEach(session => {
+                    const option = document.createElement('option');
+                    option.value = session.id;
+                    option.textContent = session.title;
+                    sessionSelect.appendChild(option);
+                });
+
+                // Display overview by default
+                displayContent('overview');
+
+                // Add event listener
+                sessionSelect.addEventListener('change', (e) => {
+                    displayContent(e.target.value);
+                });
+            }
+
+            function displayContent(id) {
+                if (id === 'overview') {
+                    contentArea.innerHTML = bookOverview;
+                } else {
+                    const session = sessions.find(s => s.id == id);
+                    if (session) {
+                        contentArea.innerHTML = `
+                            <h2 class="text-2xl font-bold mb-4 font-serif">${session.title} - 核心內容摘要</h2>
+                            <div class="border-t border-slate-700 pt-6 mt-4">
+                                ${session.summary}
+                            </div>
+                        `;
+                    }
+                }
+                // Scroll to top of content
+                document.getElementById('content-display').scrollTop = 0;
+            }
+            
+            initializePage();
+
+            // --- CHAT WIDGET LOGIC ---
+            const chatBubbleButton = document.getElementById('chat-bubble-button');
+            const chatWindow = document.getElementById('chat-window');
+            const closeChatButton = document.getElementById('close-chat-button');
+            const chatHistory = document.getElementById('chat-history');
+            const chatInput = document.getElementById('chat-input');
+            const chatSendButton = document.getElementById('chat-send-button');
+
+            const DIFY_API_URL = 'https://pro.aifunbox.com/v1/chat-messages';
+            const DIFY_API_KEY = 'app-tEivDPsjZY6phvYSqscy9Cqr';
+            
+            let conversationId = sessionStorage.getItem('seth_conversation_id') || null;
+            let chatMessages = JSON.parse(sessionStorage.getItem('seth_chat_history')) || [];
+            let isWaitingForResponse = false;
+
+            // Restore chat history
+            if (chatMessages.length > 0) {
+                chatHistory.innerHTML = ''; // Clear initial message
+                chatMessages.forEach(msg => addMessageToHistory(msg.message, msg.role, false));
+            }
+
+            function toggleChatWindow() {
+                if (chatWindow.dataset.state === 'closed') {
+                    chatWindow.dataset.state = 'open';
+                } else {
+                    chatWindow.dataset.state = 'closed';
+                }
+            }
+
+            chatBubbleButton.addEventListener('click', toggleChatWindow);
+            closeChatButton.addEventListener('click', toggleChatWindow);
+            
+            chatInput.addEventListener('keyup', (e) => {
+                if (e.key === 'Enter') {
+                    chatSendButton.click();
+                }
+            });
+
+            chatSendButton.addEventListener('click', async () => {
+                const userQuery = chatInput.value.trim();
+                if (!userQuery || isWaitingForResponse) return;
+
+                addMessageToHistory(userQuery, 'user', true);
+                chatInput.value = '';
+                setLoadingState(true);
+
+                try {
+                    const response = await fetch(DIFY_API_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${DIFY_API_KEY}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            inputs: {},
+                            query: userQuery,
+                            user: 'seth-student-cosmic', 
+                            response_mode: 'blocking',
+                            conversation_id: conversationId
+                        })
+                    });
+
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(`API Error: ${response.status} ${response.statusText} - ${errorData.message || ''}`);
+                    }
+                    
+                    const data = await response.json();
+                    
+                    conversationId = data.conversation_id;
+                    sessionStorage.setItem('seth_conversation_id', conversationId);
+                    addMessageToHistory(data.answer, 'ai', true);
+
+                } catch (error) {
+                    console.error('Chat API Error:', error);
+                    addMessageToHistory('抱歉，与AI助手的连接出现问题，请稍后再试。', 'ai', true);
+                } finally {
+                    setLoadingState(false);
+                }
+            });
+            
+            function addMessageToHistory(message, role, save = true) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `chat-bubble ${role}-bubble`;
+                
+                if (role === 'ai') {
+                    messageDiv.innerHTML = marked.parse(message);
+                } else {
+                    const p = document.createElement('p');
+                    p.textContent = message;
+                    messageDiv.appendChild(p);
+                }
+                
+                chatHistory.appendChild(messageDiv);
+                chatHistory.scrollTop = chatHistory.scrollHeight;
+
+                if (save) {
+                    chatMessages.push({ role, message });
+                    sessionStorage.setItem('seth_chat_history', JSON.stringify(chatMessages));
+                }
+            }
+
+            function setLoadingState(isLoading) {
+                isWaitingForResponse = isLoading;
+                chatSendButton.disabled = isLoading;
+                if (isLoading) {
+                    chatSendButton.innerHTML = '<div class="w-5 h-5 border-2 border-t-transparent border-white rounded-full animate-spin mx-auto"></div>';
+                    const thinkingBubble = document.createElement('div');
+                    thinkingBubble.className = 'chat-bubble ai-bubble';
+                    thinkingBubble.id = 'thinking-bubble';
+                    thinkingBubble.innerHTML = '<div class="flex items-center space-x-2"><div class="w-2 h-2 bg-slate-400 rounded-full animate-pulse"></div><div class="w-2 h-2 bg-slate-400 rounded-full animate-pulse" style="animation-delay: 0.2s"></div><div class="w-2 h-2 bg-slate-400 rounded-full animate-pulse" style="animation-delay: 0.4s"></div></div>';
+                    chatHistory.appendChild(thinkingBubble);
+                    chatHistory.scrollTop = chatHistory.scrollHeight;
+                } else {
+                    chatSendButton.textContent = '发送';
+                    const thinkingBubble = document.getElementById('thinking-bubble');
+                    if (thinkingBubble) {
+                        thinkingBubble.remove();
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
